@@ -1,4 +1,4 @@
-const KEY = import.meta.env.VITE_RAWG_KEY;
+const KEY = (import.meta.env.VITE_RAWG_KEY || "").trim();
 const API = "https://api.rawg.io/api";
 
 export async function rawg(path, params = {}, signal) {
