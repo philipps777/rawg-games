@@ -1,16 +1,33 @@
-# React + Vite
+# GAMEHUB
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A web application for discovering and browsing video games built with **React**, **Vite**, and the public **RAWG** API.
 
-Currently, two official plugins are available:
+**Live Demo:** [https://philipps777.github.io/rawg-games/](https://philipps777.github.io/rawg-games/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## API Server & Data Source
 
-## React Compiler
+- **API Server:** `https://api.rawg.io/api`
+- **RAWG API Documentation:** [https://api.rawg.io/docs/](https://api.rawg.io/docs/)
+- **Game Data Source:** [https://rawg.io](https://rawg.io)
+- **Authentication:** API key passed via the `key` query parameter from the `VITE_RAWG_KEY` environment variable.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Features
 
-## Expanding the Oxlint configuration
+- Game catalog with genre filtering, sorting, and debounced search.
+- Infinite scroll pagination with a manual "Load more" fallback.
+- Loading skeletons, empty search states, and API/network error handling with retry.
+- Detailed game modal with description, screenshots, ratings, platforms, developers, and playtime.
+- Local user profile (sign up / sign in) and favorites stored in `localStorage`.
+- Built-in `EN` / `UA` language switcher, dark/light theme toggle (dark by default), and responsive layout.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+## Project Structure
+
+```text
+src/
+├── components/   # UI components, game cards, and modals
+├── hooks/        # Custom hooks (catalog, debounced input, local auth)
+├── services/     # RAWG API client
+├── styles/       # Application styles
+├── utils/        # Helpers, localization dictionary, and storage wrapper
+├── App.jsx       # Main application component
+└── main.jsx      # Entry point
