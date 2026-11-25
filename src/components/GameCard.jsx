@@ -1,23 +1,67 @@
-import { year } from "../utils/formatDate";
+import { getYear } from "../utils/format";
+import { HeartIcon } from "./Icons";
 
-export function GameCard({ game, onOpen }) {
-  const genre = game.genres?.[0]?.name;
+function handleTiltMove(e) {
+  const rect = e.currentTarget.getBoundingClientRect();
+  const xRatio = (e.clientX - rect.left) / rect.width - 0.5;
+  const yRatio = (e.clientY - rect.top) / rect.height - 0.5;
+  e.currentTarget.style.setProperty("--ry", `${xRatio * 12}deg`);
+  e.currentTarget.style.setProperty("--rx", `${-yRatio * 10}deg`);
+}
+
+function handleTiltLeave(e) {
+  e.currentTarget.style.setProperty("--rx", "0deg");
+  e.currentTarget.style.setProperty("--ry", "0deg");
+}
+
+export function GameCard({ game, index, isFav, onOpen, onToggleFav }) {
+  const releaseYear = getYear(game.released);
+  const mainGenre = game.genres[0] ?? "—";
 
   return (
-    <button className="card" onClick={() => onOpen(game.id)}>
-      <div className="cover">
-        {game.background_image && (
-          <img src={game.background_image} alt={game.name} loading="lazy" />
-        )}
+    <div className="float" style={{ "--i": index % 8 }}>
+      <article
+        className="tilt"
+        onMouseMove={handleTiltMove}
+        onMouseLeave={handleTiltLeave}
+      >
+        <button
+          className="cover"
+          onClick={() => onOpen(game)}
+          aria-label={`Открыть: ${game.name}`}
+        >
+          {game.image && <img src={game.image} alt="" loading="lazy" />}
+        </button>
+
         <div className="chips">
-          <span className="chip">{year(game.released)}</span>
-          {genre && <span className="chip">{genre}</span>}
+          <span className="chip">{releaseYear}</span>
+          {game.genres[0] && <span className="chip">{game.genres[0]}</span>}
         </div>
-      </div>
-      <h3>{game.name}</h3>
-      <p>
-        {year(game.released)} • {genre ?? "—"}
-      </p>
-    </button>
+
+        <button
+          className="heart"
+          aria-pressed={isFav}
+          aria-label={isFav ? "Убрать из избранного" : "В избранное"}
+          onClick={() => onToggleFav(game)}
+        >
+          <HeartIcon active={isFav} />
+        </button>
+
+        <h3>{game.name}</h3>
+        <p>
+          {releaseYear} • {mainGenre}
+        </p>
+      </article>
+    </div>
+  );
+}
+
+export function GameCardSkeleton() {
+  return (
+    <div className="tilt sk" aria-hidden="true">
+      <div className="cover" />
+      <div className="l1" />
+      <div className="l2" />
+    </div>
   );
 }
