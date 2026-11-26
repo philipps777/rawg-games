@@ -18,7 +18,7 @@ A web application for discovering and browsing video games built with **React**,
 - Loading skeletons, empty search states, and API/network error handling with retry.
 - Detailed game modal with description, screenshots, ratings, platforms, developers, and playtime.
 - Local user profile (sign up / sign in) and favorites stored in `localStorage`.
-- Built-in `EN` / `UA` language switcher, dark/light theme toggle (dark by default), and responsive layout.
+
 
 ## Project Structure
 
